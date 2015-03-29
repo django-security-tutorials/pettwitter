@@ -7,7 +7,9 @@
 
 {% if user.is_authenticated %}
 <p>You're signed in as {{ user.username }}. Yay! You should look at your
-  <a href="/pets/">list of pets</a>.</p>
+  <a href="/pets/">list of pets</a>. You can also
+  <a href="/pets/delete_all/">close your account</a>.</p>
+</p>
 {% else %}
 <p>To sign up, FIXME.</p>
 {% endif %}
@@ -22,3 +24,5 @@
   <li>{{ update.text }} by {{ update.pet.name }} on {{ update.pub_date }}</li>
   {% endfor %}
 </ul>
+
+<p>Reload for more!</p>
