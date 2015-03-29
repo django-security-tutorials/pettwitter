@@ -21,7 +21,7 @@
 
 <ul>
   {% for update in recent_updates %}
-  <li>{{ update.text }} by {{ update.pet.name }} on {{ update.pub_date }}</li>
+  <li>{{ update.text }} by <a href="/pets/profiles/{{ update.pet.id }}">{{ update.pet.name }}</a> on {{ update.pub_date }}</li>
   {% endfor %}
 </ul>
 
