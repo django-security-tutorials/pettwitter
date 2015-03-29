@@ -6,8 +6,9 @@ from django.shortcuts import render
 urlpatterns = patterns(
     '',  # First arg to patterns is a namespace parameter.
 
-    # Just one index view in a base app.
+    # A couple of views in a base app.
     url(r'^$', 'base_app.views.site_index'),
+    url(r'^logout/$', 'base_app.views.logout'),
 
     # Actual pet communication views -- most of the app is here.
     url(r'^pets/', include('communication_app.urls')),

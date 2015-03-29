@@ -8,7 +8,8 @@
 {% if user.is_authenticated %}
 <p>You're signed in as {{ user.username }}. Yay! You should look at your
   <a href="/pets/">list of pets</a>. You can also
-  <a href="/pets/delete_all/">close your account</a>.</p>
+  <a href="/logout/">log out for now</a> or
+  <a href="/pets/delete_all/">delete all your pet data</a>.</p>
 </p>
 {% else %}
 <p>To sign up, FIXME.</p>
