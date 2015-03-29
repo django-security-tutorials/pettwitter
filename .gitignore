@@ -1,0 +1,10 @@
+# Python compiled bytecode etc.
+*.pyc
+*.pyo
+
+# Database -- default in Django dev mode
+*.sqlite3
+
+# Emacs etc. backup files
+\#*
+*~
