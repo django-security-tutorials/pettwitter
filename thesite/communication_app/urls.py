@@ -10,4 +10,5 @@ urlpatterns = patterns(
     url(r'^new_pet/$', views.new_pet, name='new_pet'),
     url(r'^profiles/(\d+)$', views.profile, name='profile'),
     url(r'^update/(\d+)', views.update, name='update'),
+    url(r'^set_description/(\d+)', views.set_description, name='set_description'),
 )

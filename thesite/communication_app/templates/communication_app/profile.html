@@ -1,4 +1,8 @@
+<h1>About me</h1>
+
 <p>Hi, I'm {{ pet.name }}</p>
+
+<p>{{ pet.description | safe }}</p>
 
 {% if pet.update_set.count %}
 <p>Here is a list of my updates.</p>
@@ -17,6 +21,13 @@
 <form method="POST" action="/pets/update/{{ pet.id }}">
   {% csrf_token %}
   {{ update_form }}
+  <input type="submit">
+</form>
+
+<p>Set your pet's profile description here:</p>
+<form method="POST" action="/pets/set_description/{{ pet.id }}/">
+  {% csrf_token %}
+  <textarea name="description"></textarea>
   <input type="submit">
 </form>
 {% endif %}

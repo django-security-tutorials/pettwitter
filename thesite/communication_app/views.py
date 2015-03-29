@@ -25,7 +25,7 @@ def index(request):
 def new_pet(request):
     # If user is not logged in, return HTTP 403.
     if not request.user.is_authenticated:
-        return HttpResponse(status_code=403)
+        return HttpResponse(status=403)
 
     # Since the user _is_ logged in, we validate the
     # form data.
@@ -83,7 +83,7 @@ def update(request, pet_id):
 
     # If the user is not logged in, reject the request.
     if not request.user.is_authenticated():
-        return HttpResponse(status_code=403)
+        return HttpResponse(status=403)
 
     # If they're trying to update a non-existent pet, reject the
     # request with a 404.
@@ -92,7 +92,7 @@ def update(request, pet_id):
     # If the user is trying to update a pet they don't own,
     # reject the request.
     if pet.user != request.user:
-        return HttpResponse(status_code=403)
+        return HttpResponse(status=403)
 
     # Now take the data in the POST and store in the database;
     # after that's done, we'll redirect the user back to this
@@ -112,3 +112,44 @@ def update(request, pet_id):
     # Now send the person back to the pet index page.
     return HttpResponseRedirect(reverse(profile,
                                         args=(pet_id,)))
+
+
+def set_description(request, pet_id):
+    # Here we let the user set a description for a pet of theirs.
+
+    # If the user is not logged in, reject the request.
+    if not request.user.is_authenticated():
+        return HttpResponse(status=403)
+
+    # If they're trying to update a non-existent pet, reject the
+    # request with a 404.
+    pet = get_object_or_404(communication_app.models.Pet, pk=pet_id)
+
+    # If the user is trying to describe a pet they don't own, reject
+    # the request.
+    if pet.user != request.user:
+        return HttpResponse(status=403)
+
+    # If they gave us no description, reject.
+    raw_user_provided_description =  request.POST.get('description', None)
+    if raw_user_provided_description is None:
+        return HttpResponse(status=403)
+
+    # Slice it to just be 1024 characters, since that's the length in
+    # the database.
+    raw_user_provided_description = raw_user_provided_description[:1024]
+
+    # If the incoming description is not valid UTF-8, then reject the
+    # request.
+    try:
+        user_provided_description = unicode(raw_user_provided_description)
+    except UnicodeDecodeError:
+        return HttpResponse(status=403)
+
+    # Seems good. Let's store it.
+    pet.description = user_provided_description
+    pet.save()
+
+    # Redirect them back to the profile for this pet.
+    return HttpResponseRedirect('/pets/profiles/%d' % (
+        pet.id,))
