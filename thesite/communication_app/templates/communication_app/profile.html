@@ -1,0 +1,22 @@
+<p>Hi, I'm {{ pet.name }}</p>
+
+{% if pet.update_set.count %}
+<p>Here is a list of my updates.</p>
+
+<ul>
+  {% for update in pet.update_set.all %}
+  <li>{{ update.text | safe }} (on {{ update.pub_date }})</li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No updates yet.</p>
+{% endif %}
+
+{% if user == pet.user %}
+<p>Got something to say? Type it here and click submit!</p>
+<form method="POST" action="/pets/update/{{ pet.id }}">
+  {% csrf_token %}
+  {{ update_form }}
+  <input type="submit">
+</form>
+{% endif %}

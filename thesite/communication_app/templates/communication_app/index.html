@@ -1,3 +1,20 @@
 <header>
   <p>You're logged in as {{ user.username }}.</p>
 </header>
+
+{% if user %}
+<p>Since you're logged in, you might want to add a new pet.</p>
+<form action="/pets/new_pet/" method="POST">
+  {% csrf_token %}
+  {{ pet_form }}
+  <input type="submit">
+</form>
+<p>Here are your existing pets.</p>
+<ul>
+  {% for pet in my_pets %}
+  <li><a href="/pets/profiles/{{ pet.id }}">{{ pet.name }}</a></li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>Since you're not logged in, you can't add any new pets.</p>
+{% endif %}
