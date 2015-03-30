@@ -30,14 +30,20 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    # Django-bundled modules
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Apps that are in this project
     'base_app',
     'communication_app',
+
+    # Cool third party module for making Django faster
+    'asheeshs_django_optimizer',
 )
 
 MIDDLEWARE_CLASSES = (
