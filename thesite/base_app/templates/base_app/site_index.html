@@ -15,7 +15,23 @@
   .
 </p>
 {% else %}
-<p>To sign up, FIXME.</p>
+<p>To sign up, fill in this form:</p>
+
+<form method="POST" action="/create_user/">
+  {% csrf_token %}
+  <input type="text" name="username" placeholder="username"></input>
+  <input type="password" name="password" placeholder="password"></input>
+  <input type="submit"></input>
+</form>
+
+<p>To sign in, fill in this form:</p>
+
+<form method="POST" action="/login/">
+  {% csrf_token %}
+  <input type="text" name="username" placeholder="username"></input>
+  <input type="password" name="password" placeholder="password"></input>
+  <input type="submit"></input>
+</form>
 {% endif %}
 
 <p>On this site, you can write updates on behalf of your
