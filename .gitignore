@@ -8,3 +8,6 @@
 # Emacs etc. backup files
 \#*
 *~
+
+# Django copied static files
+thesite/.static-generated
