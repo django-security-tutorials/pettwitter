@@ -1,40 +1,47 @@
 {% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.4-dist/css/bootstrap.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.4-dist/css/bootstrap-theme.css' %}" />
+    <script src="{% static 'jquery-2.1.3.js' %}"></script>
+    <script src="{% static 'bootstrap-3.3.4-dist/js/bootstrap.js' %}"></script>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <h1>About me</h1>
 
-<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.4-dist/css/bootstrap.css' %}" />
-<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.4-dist/css/bootstrap-theme.css' %}" />
-<script src="{% static 'jquery-2.1.3.js' %}"></script>
-<script src="{% static 'bootstrap-3.3.4-dist/js/bootstrap.js' %}"></script>
+      <p>Hi, I'm {{ pet.name }}</p>
 
-<h1>About me</h1>
+      <p>{{ pet.description | safe }}</p>
 
-<p>Hi, I'm {{ pet.name }}</p>
+      {% if pet.update_set.count %}
+      <p>Here is a list of my updates.</p>
 
-<p>{{ pet.description | safe }}</p>
+      <ul>
+        {% for update in pet.update_set.all %}
+        <li>{{ update.text | safe }} (on {{ update.pub_date }})</li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p>No updates yet.</p>
+      {% endif %}
 
-{% if pet.update_set.count %}
-<p>Here is a list of my updates.</p>
+      {% if user == pet.user %}
+      <p>Got something to say? Type it here and click submit!</p>
+      <form method="POST" action="/pets/update/{{ pet.id }}">
+        {% csrf_token %}
+        {{ update_form }}
+        <input type="submit">
+      </form>
 
-<ul>
-  {% for update in pet.update_set.all %}
-  <li>{{ update.text | safe }} (on {{ update.pub_date }})</li>
-  {% endfor %}
-</ul>
-{% else %}
-<p>No updates yet.</p>
-{% endif %}
-
-{% if user == pet.user %}
-<p>Got something to say? Type it here and click submit!</p>
-<form method="POST" action="/pets/update/{{ pet.id }}">
-  {% csrf_token %}
-  {{ update_form }}
-  <input type="submit">
-</form>
-
-<p>Set your pet's profile description here:</p>
-<form method="POST" action="/pets/set_description/{{ pet.id }}/">
-  {% csrf_token %}
-  <textarea name="description"></textarea>
-  <input type="submit">
-</form>
-{% endif %}
+      <p>Set your pet's profile description here:</p>
+      <form method="POST" action="/pets/set_description/{{ pet.id }}/">
+        {% csrf_token %}
+        <textarea name="description"></textarea>
+        <input type="submit">
+      </form>
+      {% endif %}
+    </div>
+  </body>
+</html>

@@ -1,55 +1,62 @@
 {% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.4-dist/css/bootstrap.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.4-dist/css/bootstrap-theme.css' %}" />
+    <script src="{% static 'jquery-2.1.3.js' %}"></script>
+    <script src="{% static 'bootstrap-3.3.4-dist/js/bootstrap.js' %}"></script>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <h1>Welcome to petwriter</h1>
 
-<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.4-dist/css/bootstrap.css' %}" />
-<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.4-dist/css/bootstrap-theme.css' %}" />
-<script src="{% static 'jquery-2.1.3.js' %}"></script>
-<script src="{% static 'bootstrap-3.3.4-dist/js/bootstrap.js' %}"></script>
+      <h2>About this site</h2>
 
-<h1>Welcome to petwriter</h1>
+      <p>This is a site where <em>you</em> can share small (140 char) updates
+        on behalf of your pets.</p>
 
-<h2>About this site</h2>
+      {% if user.is_authenticated %}
+      <p>You're signed in as {{ user.username }}. Yay! You should look at your
+        <a href="/pets/">list of pets</a>. You can also
+        <a href="/logout/">log out for now</a> or
+        <form method="POST" style="display: inline;" action="/pets/delete_my_pets/">
+          <input style="display: inline;" type="submit" value="delete all your pet data"></input>
+        </form>
+        .
+      </p>
+      {% else %}
+      <p>To sign up, fill in this form:</p>
 
-<p>This is a site where <em>you</em> can share small (140 char) updates
-  on behalf of your pets.</p>
+      <form method="POST" action="/create_user/">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="username"></input>
+        <input type="password" name="password" placeholder="password"></input>
+        <input type="submit"></input>
+      </form>
 
-{% if user.is_authenticated %}
-<p>You're signed in as {{ user.username }}. Yay! You should look at your
-  <a href="/pets/">list of pets</a>. You can also
-  <a href="/logout/">log out for now</a> or
-  <form method="POST" style="display: inline;" action="/pets/delete_my_pets/">
-    <input style="display: inline;" type="submit" value="delete all your pet data"></input>
-  </form>
-  .
-</p>
-{% else %}
-<p>To sign up, fill in this form:</p>
+      <p>To sign in, fill in this form:</p>
 
-<form method="POST" action="/create_user/">
-  {% csrf_token %}
-  <input type="text" name="username" placeholder="username"></input>
-  <input type="password" name="password" placeholder="password"></input>
-  <input type="submit"></input>
-</form>
+      <form method="POST" action="/login/">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="username"></input>
+        <input type="password" name="password" placeholder="password"></input>
+        <input type="submit"></input>
+      </form>
+      {% endif %}
 
-<p>To sign in, fill in this form:</p>
+      <p>On this site, you can write updates on behalf of your
+        pets. Register as many pets as you like.</p>
 
-<form method="POST" action="/login/">
-  {% csrf_token %}
-  <input type="text" name="username" placeholder="username"></input>
-  <input type="password" name="password" placeholder="password"></input>
-  <input type="submit"></input>
-</form>
-{% endif %}
+      <h2>Recent pet updates across the site</h2>
 
-<p>On this site, you can write updates on behalf of your
-  pets. Register as many pets as you like.</p>
+      <ul>
+        {% for update in recent_updates %}
+        <li>{{ update.text }} by <a href="/pets/profiles/{{ update.pet.id }}">{{ update.pet.name }}</a> on {{ update.pub_date }}</li>
+        {% endfor %}
+      </ul>
 
-<h2>Recent pet updates across the site</h2>
-
-<ul>
-  {% for update in recent_updates %}
-  <li>{{ update.text }} by <a href="/pets/profiles/{{ update.pet.id }}">{{ update.pet.name }}</a> on {{ update.pub_date }}</li>
-  {% endfor %}
-</ul>
-
-<p>Reload for more!</p>
+      <p>Reload for more!</p>
+    </div>
+  </body>
+</html>
