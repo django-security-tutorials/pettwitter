@@ -1,6 +1,7 @@
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
 
 import communication_app.forms
 import communication_app.shortcuts
@@ -153,3 +154,26 @@ def set_description(request, pet_id):
     # Redirect them back to the profile for this pet.
     return HttpResponseRedirect('/pets/profiles/%d' % (
         pet.id,))
+
+
+
+@csrf_exempt
+def delete_my_pets(request):
+    # Here we let the user delete all their data.
+
+    # We know that GETs can be caused by other sites, but POSTs should
+    # be safe. So we check if request.method is POST.
+    if request.method != 'POST':
+        return HttpResponse(status=403)
+
+    # If the user is not logged in, reject the request.
+    if not request.user.is_authenticated():
+        return HttpResponse(status=403)
+
+    # OK. I guess they want to delete all their pets.
+    for pet in communication_app.models.Pet.objects.filter(
+            user=request.user):
+        pet.delete()
+
+    # Take them back to a lonely front page.
+    return HttpResponseRedirect('/')

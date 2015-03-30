@@ -9,7 +9,10 @@
 <p>You're signed in as {{ user.username }}. Yay! You should look at your
   <a href="/pets/">list of pets</a>. You can also
   <a href="/logout/">log out for now</a> or
-  <a href="/pets/delete_all/">delete all your pet data</a>.</p>
+  <form method="POST" style="display: inline;" action="/pets/delete_my_pets/">
+    <input style="display: inline;" type="submit" value="delete all your pet data"></input>
+  </form>
+  .
 </p>
 {% else %}
 <p>To sign up, FIXME.</p>
