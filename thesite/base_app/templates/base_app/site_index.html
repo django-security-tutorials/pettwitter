@@ -56,7 +56,12 @@
         {% endfor %}
       </ul>
 
-      <p>Reload for more!</p>
+      {% if recent_updates %}
+      <p>Reload often!</p>
+      {% else %}
+      <p>None yet. Check back soon!</p>
+      {% endif %}
+
     </div>
   </body>
 </html>
