@@ -1,4 +1,3 @@
 Django==1.7.7
-psycopg2==2.6
 asheeshs-django-optimizer
 -e .
