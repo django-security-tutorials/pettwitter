@@ -11,3 +11,6 @@
 
 # Django copied static files
 thesite/.static-generated
+
+# Python/pip/egg generated files
+*.egg-info
