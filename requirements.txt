@@ -1,4 +1,4 @@
-Django==1.7.7
+Django==1.4.20
 dj-database-url==0.3.0
 asheeshs-django-optimizer
 -e .
