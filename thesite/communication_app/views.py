@@ -1,4 +1,7 @@
+import re
+
 from django.core.urlresolvers import reverse
+import django.db
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
@@ -91,7 +94,6 @@ def update(request, pet_id):
     # and also query for a user ID that matches.
     #
     # If there is a match, we continue. Else, we raise 403.
-    import django.db
     cursor = django.db.connection.cursor()
     sql_query = '''SELECT * from communication_app_pet WHERE id=%s AND user_id=%d''' % (
         pet_id,
@@ -106,7 +108,6 @@ def update(request, pet_id):
     # request with a 404.
     #
     # First, make sure that we are only providing a number as the pet_id.
-    import re
     pet_id = re.match(r'^(\d+)', pet_id).group(0)
 
     pet = get_object_or_404(communication_app.models.Pet, pk=pet_id)
