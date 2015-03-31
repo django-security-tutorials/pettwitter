@@ -62,6 +62,10 @@ WSGI_APPLICATION = 'thesite.wsgi.application'
 
 SESSION_COOKIE_HTTPONLY = False
 
+SESSION_ENGINE='django.contrib.sessions.backends.signed_cookies'
+
+SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'
+
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
