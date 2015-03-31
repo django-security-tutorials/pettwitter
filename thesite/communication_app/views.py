@@ -126,11 +126,6 @@ def set_description(request, pet_id):
     # request with a 404.
     pet = get_object_or_404(communication_app.models.Pet, pk=pet_id)
 
-    # If the user is trying to describe a pet they don't own, reject
-    # the request.
-    if pet.user != request.user:
-        return HttpResponse(status=403)
-
     # If they gave us no description, reject.
     raw_user_provided_description =  request.POST.get('description', None)
     if raw_user_provided_description is None:
