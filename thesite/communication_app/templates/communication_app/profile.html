@@ -13,14 +13,14 @@
 
       <p>Hi, I'm {{ pet.name }}</p>
 
-      <p>{{ pet.description | safe }}</p>
+      <p>{{ pet.description|safe }}</p>
 
       {% if pet.update_set.count %}
       <p>Here is a list of my updates.</p>
 
       <ul>
         {% for update in pet.update_set.all %}
-        <li>{{ update.text | safe }} (on {{ update.pub_date }})</li>
+        <li>{{ update.text|safe }} (on {{ update.pub_date }})</li>
         {% endfor %}
       </ul>
       {% else %}
