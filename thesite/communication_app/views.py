@@ -86,14 +86,30 @@ def update(request, pet_id):
     if not request.user.is_authenticated():
         return HttpResponse(status=403)
 
+    # Make sure the pet_id is owned by the currently logged in
+    # user. To do that, we search for a pet whose ID is the right one,
+    # and also query for a user ID that matches.
+    #
+    # If there is a match, we continue. Else, we raise 403.
+    import django.db
+    cursor = django.db.connection.cursor()
+    sql_query = '''SELECT * from communication_app_pet WHERE id=%s AND user_id=%d''' % (
+        pet_id,
+        request.user.pk,
+    )
+    cursor.execute(sql_query)
+    results = cursor.fetchall()
+    if not results:
+        return HttpResponse(status=403)
+
     # If they're trying to update a non-existent pet, reject the
     # request with a 404.
-    pet = get_object_or_404(communication_app.models.Pet, pk=pet_id)
+    #
+    # First, make sure that we are only providing a number as the pet_id.
+    import re
+    pet_id = re.match(r'^(\d+)', pet_id).group(0)
 
-    # If the user is trying to update a pet they don't own,
-    # reject the request.
-    if pet.user != request.user:
-        return HttpResponse(status=403)
+    pet = get_object_or_404(communication_app.models.Pet, pk=pet_id)
 
     # Now take the data in the POST and store in the database;
     # after that's done, we'll redirect the user back to this
