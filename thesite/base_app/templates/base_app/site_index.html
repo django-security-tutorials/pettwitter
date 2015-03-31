@@ -4,49 +4,61 @@
   <head>
     <link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.4-dist/css/bootstrap.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.4-dist/css/bootstrap-theme.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'pets.css' %}" />
     <script src="{% static 'jquery-2.1.3.js' %}"></script>
     <script src="{% static 'bootstrap-3.3.4-dist/js/bootstrap.js' %}"></script>
   </head>
   <body>
-    <div class="container-fluid">
-      <h1>Welcome to petwriter</h1>
+    <div class="container">
+    <h1>Welcome to petwriter</h1>
+      <div class="row">
+        <div class="col-md-6">
+        <h2>About this site</h2>
 
-      <h2>About this site</h2>
+        <p>This is a site where <em>you</em> can share small (140 char) updates
+          on behalf of your pets.</p>
+        {% if user.is_authenticated %}
+        <p>On this site, you can write updates on behalf of your
+        pets. <a href="/pets/">Register as many pets as you like.</a></p>
+        {% endif %}
+        </div>
 
-      <p>This is a site where <em>you</em> can share small (140 char) updates
-        on behalf of your pets.</p>
+        <div class="col-md-6">
+        {% if user.is_authenticated %}
+          <div class="text-right">
+        <p>Signed in as <b>{{ user.username }}</b>.</p>
+          <p><a href="/pets/" class="btn btn-default">List of pets</a>
+          <a href="/logout/" class="btn btn-warning">Log out</a><p>
+          <form method="POST" class="form-inline" action="/pets/delete_my_pets/">
+            <input class="btn btn-danger" type="submit" value="delete all your pet data"></input>
+          </form>
+          .
+        </p>
+          </div>
+      
+        {% else %}
+            <div class='well'>
+            <h3>Register</h3>
 
-      {% if user.is_authenticated %}
-      <p>You're signed in as {{ user.username }}. Yay! You should look at your
-        <a href="/pets/">list of pets</a>. You can also
-        <a href="/logout/">log out for now</a> or
-        <form method="POST" style="display: inline;" action="/pets/delete_my_pets/">
-          <input style="display: inline;" type="submit" value="delete all your pet data"></input>
-        </form>
-        .
-      </p>
-      {% else %}
-      <p>To sign up, fill in this form:</p>
+            <form method="POST" action="/create_user/" class="form-inline">
+              {% csrf_token %}
+              <input type="text" name="username" placeholder="username" class="form-control"></input>
+              <input type="password" name="password" placeholder="password" class="form-control"></input>
+              <input type="submit" class="btn btn-default" value="Sign up"></input>
+            </form>
 
-      <form method="POST" action="/create_user/">
-        {% csrf_token %}
-        <input type="text" name="username" placeholder="username"></input>
-        <input type="password" name="password" placeholder="password"></input>
-        <input type="submit"></input>
-      </form>
+            <h3>Log in</h3>
 
-      <p>To sign in, fill in this form:</p>
-
-      <form method="POST" action="/login/">
-        {% csrf_token %}
-        <input type="text" name="username" placeholder="username"></input>
-        <input type="password" name="password" placeholder="password"></input>
-        <input type="submit"></input>
-      </form>
-      {% endif %}
-
-      <p>On this site, you can write updates on behalf of your
-        pets. Register as many pets as you like.</p>
+            <form method="POST" action="/login/" class="form-inline">
+              {% csrf_token %}
+              <input type="text" name="username" placeholder="username" class="form-control"></input>
+              <input type="password" name="password" placeholder="password" class="form-control"></input>
+              <input type="submit" class="btn btn-primary" value="Log in"></input>
+            </form>
+            </div>
+        {% endif %}
+        </div>
+      </div>
 
       <h2>Recent pet updates across the site</h2>
 
