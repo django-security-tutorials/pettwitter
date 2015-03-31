@@ -1,4 +1,4 @@
 Django==1.7.7
-dj-database-url==0.3.0
 psycopg2==2.6
 asheeshs-django-optimizer
+-e .
