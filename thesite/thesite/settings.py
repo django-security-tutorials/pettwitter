@@ -60,6 +60,7 @@ ROOT_URLCONF = 'thesite.urls'
 
 WSGI_APPLICATION = 'thesite.wsgi.application'
 
+SESSION_COOKIE_HTTPONLY = False
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
