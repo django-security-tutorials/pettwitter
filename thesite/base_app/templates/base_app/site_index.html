@@ -26,7 +26,7 @@
         <div class="col-md-6">
         {% if user.is_authenticated %}
           <div class="text-right">
-        <p>Signed in as <b>{{ user.username }}</b>.</p>
+        <p>Signed in as <b>{{ user.username }}</b> (#{{ user.id }}).</p>
           <p><a href="/pets/" class="btn btn-default">List of pets</a>
           <a href="/logout/" class="btn btn-warning">Log out</a><p>
           <form method="POST" class="form-inline" action="/pets/delete_my_pets/">
