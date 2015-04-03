@@ -13,7 +13,7 @@ def logout(request):
 
 
 def site_index(request):
-    recent_updates = communication_app.models.Update.objects.all()
+    recent_updates = communication_app.models.Update.objects.all().order_by('-pub_date')
     return render(
         request,
         'base_app/site_index.html', {
