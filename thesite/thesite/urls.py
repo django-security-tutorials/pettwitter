@@ -14,6 +14,9 @@ urlpatterns = patterns(
     # Actual pet communication views -- most of the app is here.
     url(r'^pets/', include('communication_app.urls')),
 
+    # Include the views from Asheesh's Django Optimizer
+    url(r'^optimizer/', include('asheeshs_django_optimizer.urls')),
+
     # Django admin.
     url(r'^admin/', include(admin.site.urls)),
 )
