@@ -28,7 +28,7 @@ def index(request):
 
 def new_pet(request):
     # If user is not logged in, return HTTP 403.
-    if not request.user.is_authenticated:
+    if not request.user.is_authenticated():
         return HttpResponse(status=403)
 
     # Since the user _is_ logged in, we validate the
