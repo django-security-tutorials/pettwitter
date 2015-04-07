@@ -83,5 +83,14 @@ def create_user(request):
         password=request.POST['password'],
     )
 
+    user = django.contrib.auth.authenticate(
+        username=desired_username,
+        password=request.POST['password']
+    )
+
+    if user is not None:
+        if user.is_active:
+            django.contrib.auth.login(request, user)
+
     # Let's just redirect to the front page.
     return HttpResponseRedirect('/')
