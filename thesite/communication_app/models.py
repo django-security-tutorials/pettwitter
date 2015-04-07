@@ -7,9 +7,10 @@ class Pet(models.Model):
     # Every Pet has a user. This means that a user can own between 0 and infinity pets.
     user = models.ForeignKey(django.contrib.auth.models.User)
 
-    # Every pet has a (unique across all pets) name. For convenience,
-    # we use the Django SlugField.
-    name = models.SlugField(unique=True)
+    # Every pet has a name. For convenience, we use the Django SlugField.
+    #
+    # These aren't unique, which makes sense given that everyone has a pet named Fido.
+    name = models.SlugField()
 
     # Add a field for pet description. We set the default to be the empty string,
     # and we set blank=True to lazy people people to have empty descriptions.
