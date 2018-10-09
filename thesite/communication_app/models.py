@@ -5,7 +5,7 @@ import django.contrib.auth.models
 
 class Pet(models.Model):
     # Every Pet has a user. This means that a user can own between 0 and infinity pets.
-    user = models.ForeignKey(django.contrib.auth.models.User)
+    user = models.ForeignKey(django.contrib.auth.models.User, on_delete=models.CASCADE)
 
     # Every pet has a name. For convenience, we use the Django SlugField.
     #
@@ -21,7 +21,7 @@ class Update(models.Model):
         # Use current time on obj creation.
         auto_now_add=True,
     )
-    pet = models.ForeignKey(Pet)
+    pet = models.ForeignKey(Pet, on_delete=models.CASCADE)
     text = models.CharField(max_length=140)
 
 admin.site.register(Update)
