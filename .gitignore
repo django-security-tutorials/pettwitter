@@ -14,3 +14,6 @@ thesite/.static-generated
 
 # Python/pip/egg generated files
 *.egg-info
+
+# PyCharm related files
+.idea
