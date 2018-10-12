@@ -26,7 +26,7 @@ def index(request):
 
 def new_pet(request):
     # If user is not logged in, return HTTP 403.
-    if not request.user.is_authenticated():
+    if not request.user.is_authenticated:
         return HttpResponse(status=403)
 
     # Since the user _is_ logged in, we validate the
@@ -81,7 +81,7 @@ def update(request, pet_id):
     # object, making sure the user owns the pet in question.
 
     # If the user is not logged in, reject the request.
-    if not request.user.is_authenticated():
+    if not request.user.is_authenticated:
         return HttpResponse(status=403)
 
     # Make sure the pet_id is owned by the currently logged in
@@ -129,7 +129,7 @@ def set_description(request, pet_id):
     # Here we let the user set a description for a pet of theirs.
 
     # If the user is not logged in, reject the request.
-    if not request.user.is_authenticated():
+    if not request.user.is_authenticated:
         return HttpResponse(status=403)
 
     # If they're trying to update a non-existent pet, reject the
@@ -170,7 +170,7 @@ def delete_my_pets(request):
         return HttpResponse(status=403)
 
     # If the user is not logged in, reject the request.
-    if not request.user.is_authenticated():
+    if not request.user.is_authenticated:
         return HttpResponse(status=403)
 
     # OK. I guess they want to delete all their pets.

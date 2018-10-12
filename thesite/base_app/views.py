@@ -57,8 +57,9 @@ def create_user(request):
     # The rest of the app has so many bugs that really I don't want to
     # hear about bugs you find in this particular view.
 
-    # Make sure the user is not logged while creating a new user; that would just be weird.
-    if request.user.is_authenticated():
+    # Make sure the user is not logged in while creating a new user; that would just be
+    # weird.
+    if request.user.is_authenticated:
         return HttpResponse(status=403)
 
     # Make sure no user exists with the desired username.
