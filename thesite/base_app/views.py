@@ -1,4 +1,6 @@
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate
+from django.contrib.auth import login as django_auth_login
+from django.contrib.auth import logout as django_auth_logout
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
@@ -8,7 +10,8 @@ from communication_app.models import Update
 
 
 def logout(request):
-    return logout(request, next_page="/")
+    django_auth_logout(request)
+    return HttpResponseRedirect('index')
 
 
 def site_index(request):
@@ -42,7 +45,7 @@ def login(request):
     # If so, great! Log them in.
     if user is not None:
         if user.is_active:
-            login(request, user)
+            django_auth_login(request, user)
 
     # Either way, redirect back to the homepage.
     return HttpResponseRedirect("/")
@@ -78,7 +81,7 @@ def create_user(request):
 
     if user is not None:
         if user.is_active:
-            login(request, user)
+            django_auth_login(request, user)
 
     # Let's just redirect to the front page.
     return HttpResponseRedirect("/")
