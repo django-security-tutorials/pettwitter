@@ -19,7 +19,7 @@
           <p>{{ pet.description|safe }}</p>
           {% if user == pet.user %}
             <h3>Write something for your pet:</h3>
-            <form method="POST" action="/pets/update/{{ pet.id }}">
+            <form method="POST" action="/pets/update/{{ pet.id }}/">
               {% csrf_token %}
                <div class="form-group">{{ update_form }}</div>
               <input type="submit" class="btn btn-primary">
