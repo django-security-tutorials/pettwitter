@@ -1,15 +1,14 @@
-from django.conf.urls import patterns, url
+from django.urls import path
 
+from . import views
 
-from communication_app import views
-
-
-urlpatterns = patterns(
-    "",
-    url(r"^$", views.index, name="index"),
-    url(r"^new_pet/$", views.new_pet, name="new_pet"),
-    url(r"^profiles/(\d+)$", views.profile, name="profile"),
-    url(r"^update/(.+)$", views.update, name="update"),
-    url(r"^set_description/(\d+)", views.set_description, name="set_description"),
-    url(r"^delete_my_pets/", views.delete_my_pets, name="delete_my_pets"),
-)
+app_name = 'pets'
+urlpatterns = [
+    path("", views.index, name="index"),
+    # TODO: Verify paths below this comment
+    path("new_pet/", views.new_pet, name="new_pet"),
+    path("profiles/<int:pet_id>/", views.profile, name="profile"),
+    path("update/<>/", views.update, name="update"),
+    path("set_description/<int>", views.set_description, name="set_description"),
+    path("delete_my_pets/", views.delete_my_pets, name="delete_my_pets"),
+]
