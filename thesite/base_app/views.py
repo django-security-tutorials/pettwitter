@@ -1,16 +1,18 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.core.exceptions import PermissionDenied
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
-import communication_app.models
-import django.contrib.auth
-import django.contrib.auth.views
+
+from communication_app.models import Update
 
 
 def logout(request):
-    return django.contrib.auth.views.logout(request, next_page="/")
+    return logout(request, next_page="/")
 
 
 def site_index(request):
-    recent_updates = communication_app.models.Update.objects.all().order_by("-pub_date")
+    recent_updates = Update.objects.all().order_by("-pub_date")
     return render(
         request, "base_app/site_index.html", {"recent_updates": recent_updates}
     )
@@ -35,12 +37,12 @@ def login(request):
     # are valid.
     username = request.POST["username"]
     password = request.POST["password"]
-    user = django.contrib.auth.authenticate(username=username, password=password)
+    user = authenticate(username=username, password=password)
 
     # If so, great! Log them in.
     if user is not None:
         if user.is_active:
-            django.contrib.auth.login(request, user)
+            login(request, user)
 
     # Either way, redirect back to the homepage.
     return HttpResponseRedirect("/")
@@ -60,25 +62,23 @@ def create_user(request):
     # Make sure the user is not logged in while creating a new user; that would just be
     # weird.
     if request.user.is_authenticated:
-        return HttpResponse(status=403)
+        raise PermissionDenied
 
     # Make sure no user exists with the desired username.
     desired_username = request.POST["username"].lower().strip()
-    if django.contrib.auth.models.User.objects.filter(username=desired_username):
-        return HttpResponse(status=403)
+    if User.objects.filter(username=desired_username):
+        raise PermissionDenied
 
     # OK, then let's create one.
-    django.contrib.auth.models.User.objects.create_user(
+    User.objects.create_user(
         desired_username, email=None, password=request.POST["password"]
     )
 
-    user = django.contrib.auth.authenticate(
-        username=desired_username, password=request.POST["password"]
-    )
+    user = authenticate(username=desired_username, password=request.POST["password"])
 
     if user is not None:
         if user.is_active:
-            django.contrib.auth.login(request, user)
+            login(request, user)
 
     # Let's just redirect to the front page.
     return HttpResponseRedirect("/")

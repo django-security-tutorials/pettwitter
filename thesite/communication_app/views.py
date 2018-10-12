@@ -1,9 +1,10 @@
 import re
 
-from django.urls import reverse
 import django.db
-from django.http import HttpResponse, HttpResponseRedirect
+from django.core.exceptions import PermissionDenied
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
 from .forms import PetForm, UpdateForm
@@ -24,7 +25,7 @@ def index(request):
 def new_pet(request):
     # If user is not logged in, return HTTP 403.
     if not request.user.is_authenticated:
-        return HttpResponse(status=403)
+        raise PermissionDenied
 
     # Since the user _is_ logged in, we validate the
     # form data.
@@ -79,7 +80,7 @@ def update(request, pet_id):
 
     # If the user is not logged in, reject the request.
     if not request.user.is_authenticated:
-        return HttpResponse(status=403)
+        raise PermissionDenied
 
     # Make sure the pet_id is owned by the currently logged in
     # user. To do that, we search for a pet whose ID is the right one,
@@ -94,7 +95,7 @@ def update(request, pet_id):
     cursor.execute(sql_query)
     results = cursor.fetchall()
     if not results:
-        return HttpResponse(status=403)
+        raise PermissionDenied
 
     # If they're trying to update a non-existent pet, reject the
     # request with a 404.
@@ -127,7 +128,7 @@ def set_description(request, pet_id):
 
     # If the user is not logged in, reject the request.
     if not request.user.is_authenticated:
-        return HttpResponse(status=403)
+        raise PermissionDenied
 
     # If they're trying to update a non-existent pet, reject the
     # request with a 404.
@@ -136,7 +137,7 @@ def set_description(request, pet_id):
     # If they gave us no description, reject.
     raw_user_provided_description = request.POST.get("description", None)
     if raw_user_provided_description is None:
-        return HttpResponse(status=403)
+        raise PermissionDenied
 
     # Slice it to just be 1024 characters, since that's the length in
     # the database.
@@ -148,7 +149,7 @@ def set_description(request, pet_id):
     # try:
     #     user_provided_description = unicode(raw_user_provided_description)
     # except UnicodeDecodeError:
-    #     return HttpResponse(status=403)
+    #     raise PermissionDenied
 
     # Seems good. Let's store it.
     pet.description = user_provided_description
@@ -165,11 +166,11 @@ def delete_my_pets(request):
     # We know that GETs can be caused by other sites, but POSTs should
     # be safe. So we check if request.method is POST.
     if request.method != "POST":
-        return HttpResponse(status=403)
+        raise PermissionDenied
 
     # If the user is not logged in, reject the request.
     if not request.user.is_authenticated:
-        return HttpResponse(status=403)
+        raise PermissionDenied
 
     # OK. I guess they want to delete all their pets.
     for pet in Pet.objects.filter(user=request.user):
