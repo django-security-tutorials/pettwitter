@@ -1,7 +1,8 @@
-import communication_app.models
+from .models import Pet
 
 
 def get_my_pets(request):
-    if not request.user:
+    # If this is an anonymous user, they don't have any pets.
+    if not request.user.is_authenticated:
         return []
-    return communication_app.models.Pet.objects.filter(user=request.user)
+    return Pet.objects.filter(user=request.user)

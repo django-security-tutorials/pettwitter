@@ -1,13 +1,14 @@
 import re
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 import django.db
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 
-import communication_app.forms
-import communication_app.shortcuts
+from .forms import PetForm, UpdateForm
+from .models import Pet, Update
+from .shortcuts import get_my_pets
 
 
 def site_index(request):
@@ -15,8 +16,8 @@ def site_index(request):
 
 
 def index(request):
-    my_pets = communication_app.shortcuts.get_my_pets(request)
-    pet_form = communication_app.forms.PetForm()
+    my_pets = get_my_pets(request)
+    pet_form = PetForm()
     return render(
         request,
         "communication_app/index.html",
@@ -32,7 +33,7 @@ def new_pet(request):
     # Since the user _is_ logged in, we validate the
     # form data.
 
-    form = communication_app.forms.PetForm(request.GET or request.POST)
+    form = PetForm(request.GET or request.POST)
     if form.is_valid():
         # The validated data is in the form instance. Calling
         # form.save() will result in the creation of a Django ORM
@@ -67,8 +68,8 @@ def new_pet(request):
 def profile(request, pet_id):
     # All pet data is public in the systemm, so this view
     # doesn't do any access control.
-    pet = get_object_or_404(communication_app.models.Pet, pk=pet_id)
-    update_form = communication_app.forms.UpdateForm()
+    pet = get_object_or_404(Pet, pk=pet_id)
+    update_form = UpdateForm()
     return render(
         request,
         "communication_app/profile.html",
@@ -105,7 +106,7 @@ def update(request, pet_id):
     # First, make sure that we are only providing a number as the pet_id.
     pet_id = re.match(r"^(\d+)", pet_id).group(0)
 
-    pet = get_object_or_404(communication_app.models.Pet, pk=pet_id)
+    pet = get_object_or_404(Pet, pk=pet_id)
 
     # Now take the data in the POST and store in the database;
     # after that's done, we'll redirect the user back to this
@@ -114,7 +115,7 @@ def update(request, pet_id):
     # Since this app is pretty simple, if the form is somehow
     # invalid, we don't bother sending the user any information
     # about how it's invalid.
-    form = communication_app.forms.UpdateForm(request.POST)
+    form = UpdateForm(request.POST)
     if form.is_valid():
         # The logic here is very similar to the new_pet() view.
         update_instance = form.save(commit=False)
@@ -134,7 +135,7 @@ def set_description(request, pet_id):
 
     # If they're trying to update a non-existent pet, reject the
     # request with a 404.
-    pet = get_object_or_404(communication_app.models.Pet, pk=pet_id)
+    pet = get_object_or_404(Pet, pk=pet_id)
 
     # If they gave us no description, reject.
     raw_user_provided_description = request.POST.get("description", None)
@@ -143,14 +144,15 @@ def set_description(request, pet_id):
 
     # Slice it to just be 1024 characters, since that's the length in
     # the database.
-    raw_user_provided_description = raw_user_provided_description[:1024]
+    user_provided_description = raw_user_provided_description[:1024]
 
     # If the incoming description is not valid UTF-8, then reject the
     # request.
-    try:
-        user_provided_description = unicode(raw_user_provided_description)
-    except UnicodeDecodeError:
-        return HttpResponse(status=403)
+    # TODO: Don't think this matters in Python 3
+    # try:
+    #     user_provided_description = unicode(raw_user_provided_description)
+    # except UnicodeDecodeError:
+    #     return HttpResponse(status=403)
 
     # Seems good. Let's store it.
     pet.description = user_provided_description
@@ -174,7 +176,7 @@ def delete_my_pets(request):
         return HttpResponse(status=403)
 
     # OK. I guess they want to delete all their pets.
-    for pet in communication_app.models.Pet.objects.filter(user=request.user):
+    for pet in Pet.objects.filter(user=request.user):
         pet.delete()
 
     # Take them back to a lonely front page.
