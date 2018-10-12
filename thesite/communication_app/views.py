@@ -59,7 +59,7 @@ def new_pet(request):
         pass
 
     # Finally, take the user back to their pet index.
-    return HttpResponseRedirect(reverse(index))
+    return HttpResponseRedirect(reverse("pets:index"))
 
 
 def profile(request, pet_id):
@@ -120,7 +120,7 @@ def update(request, pet_id):
         update_instance.save()
 
     # Now send the person back to the pet index page.
-    return HttpResponseRedirect(reverse(profile, args=(pet_id,)))
+    return HttpResponseRedirect(reverse("pets:profile", args=(pet_id,)))
 
 
 def set_description(request, pet_id):
