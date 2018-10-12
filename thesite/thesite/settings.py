@@ -2,21 +2,22 @@
 Django settings for thesite project.
 
 For more information on this file, see
-https://docs.djangoproject.com/en/1.7/topics/settings/
+https://docs.djangoproject.com/en/2.1/topics/settings/
 
 For the full list of settings and their values, see
-https://docs.djangoproject.com/en/1.7/ref/settings/
+https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import dj_database_url
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Quick-start development settings - unsuitable for production
 
-# See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/ for a list of best practices. Figure out
-# which ones we're violating in this project!
+# See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/ for a list of
+# best practices. Figure out which ones we're violating in this project!
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "+ov#co3bkexs#f&8i3-kcbt1m+o!1wfij!72^b=64rl_96dtdc"
@@ -27,7 +28,6 @@ DEBUG = True
 TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 INSTALLED_APPS = (
@@ -65,7 +65,7 @@ SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 SESSION_SERIALIZER = "django.contrib.sessions.serializers.PickleSerializer"
 
 # Database
-# https://docs.djangoproject.com/en/1.7/ref/settings/#databases
+# https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 DATABASES = {
     "default": {
@@ -73,14 +73,12 @@ DATABASES = {
         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
-import os
-import dj_database_url
 
 if "DATABASE_URL" in os.environ:
     DATABASES["default"] = dj_database_url.config()
 
 # Internationalization
-# https://docs.djangoproject.com/en/1.7/topics/i18n/
+# https://docs.djangoproject.com/en/2.1/topics/i18n/
 
 LANGUAGE_CODE = "en-us"
 
@@ -92,9 +90,8 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.7/howto/static-files/
+# https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, ".static-generated")
