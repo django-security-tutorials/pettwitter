@@ -11,7 +11,7 @@ from communication_app.models import Update
 
 def logout(request):
     django_auth_logout(request)
-    return HttpResponseRedirect("index")
+    return HttpResponseRedirect("/")
 
 
 def site_index(request):
