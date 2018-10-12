@@ -1,9 +1,7 @@
 from django.urls import include, path
 from django.contrib import admin
 
-urlpatterns = [
-    path('', include('base_app.urls')),
-]
+urlpatterns = [path("", include("base_app.urls"))]
 
 # urlpatterns = patterns(
 #     '',  # First arg to patterns is a namespace parameter.

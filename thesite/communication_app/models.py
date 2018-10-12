@@ -14,15 +14,17 @@ class Pet(models.Model):
 
     # Add a field for pet description. We set the default to be the empty string,
     # and we set blank=True to lazy people people to have empty descriptions.
-    description = models.CharField(max_length=1024, default='', blank=True)
+    description = models.CharField(max_length=1024, default="", blank=True)
+
 
 class Update(models.Model):
     pub_date = models.DateTimeField(
         # Use current time on obj creation.
-        auto_now_add=True,
+        auto_now_add=True
     )
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE)
     text = models.CharField(max_length=140)
+
 
 admin.site.register(Update)
 admin.site.register(Pet)

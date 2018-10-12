@@ -11,7 +11,7 @@ import communication_app.shortcuts
 
 
 def site_index(request):
-    return render(request, 'site_index.html')
+    return render(request, "site_index.html")
 
 
 def index(request):
@@ -19,10 +19,8 @@ def index(request):
     pet_form = communication_app.forms.PetForm()
     return render(
         request,
-        'communication_app/index.html', {
-            'my_pets': my_pets,
-            'pet_form': pet_form,
-        }
+        "communication_app/index.html",
+        {"my_pets": my_pets, "pet_form": pet_form},
     )
 
 
@@ -34,8 +32,7 @@ def new_pet(request):
     # Since the user _is_ logged in, we validate the
     # form data.
 
-    form = communication_app.forms.PetForm(
-        request.GET or request.POST)
+    form = communication_app.forms.PetForm(request.GET or request.POST)
     if form.is_valid():
         # The validated data is in the form instance. Calling
         # form.save() will result in the creation of a Django ORM
@@ -74,10 +71,8 @@ def profile(request, pet_id):
     update_form = communication_app.forms.UpdateForm()
     return render(
         request,
-        'communication_app/profile.html', {
-            'pet': pet,
-            'update_form': update_form,
-        }
+        "communication_app/profile.html",
+        {"pet": pet, "update_form": update_form},
     )
 
 
@@ -95,7 +90,7 @@ def update(request, pet_id):
     #
     # If there is a match, we continue. Else, we raise 403.
     cursor = django.db.connection.cursor()
-    sql_query = '''SELECT * from communication_app_pet WHERE id=%s AND user_id=%d''' % (
+    sql_query = """SELECT * from communication_app_pet WHERE id=%s AND user_id=%d""" % (
         pet_id,
         request.user.pk,
     )
@@ -108,7 +103,7 @@ def update(request, pet_id):
     # request with a 404.
     #
     # First, make sure that we are only providing a number as the pet_id.
-    pet_id = re.match(r'^(\d+)', pet_id).group(0)
+    pet_id = re.match(r"^(\d+)", pet_id).group(0)
 
     pet = get_object_or_404(communication_app.models.Pet, pk=pet_id)
 
@@ -119,8 +114,7 @@ def update(request, pet_id):
     # Since this app is pretty simple, if the form is somehow
     # invalid, we don't bother sending the user any information
     # about how it's invalid.
-    form = communication_app.forms.UpdateForm(
-        request.POST)
+    form = communication_app.forms.UpdateForm(request.POST)
     if form.is_valid():
         # The logic here is very similar to the new_pet() view.
         update_instance = form.save(commit=False)
@@ -128,8 +122,7 @@ def update(request, pet_id):
         update_instance.save()
 
     # Now send the person back to the pet index page.
-    return HttpResponseRedirect(reverse(profile,
-                                        args=(pet_id,)))
+    return HttpResponseRedirect(reverse(profile, args=(pet_id,)))
 
 
 def set_description(request, pet_id):
@@ -144,7 +137,7 @@ def set_description(request, pet_id):
     pet = get_object_or_404(communication_app.models.Pet, pk=pet_id)
 
     # If they gave us no description, reject.
-    raw_user_provided_description =  request.POST.get('description', None)
+    raw_user_provided_description = request.POST.get("description", None)
     if raw_user_provided_description is None:
         return HttpResponse(status=403)
 
@@ -164,9 +157,7 @@ def set_description(request, pet_id):
     pet.save()
 
     # Redirect them back to the profile for this pet.
-    return HttpResponseRedirect('/pets/profiles/%d' % (
-        pet.id,))
-
+    return HttpResponseRedirect("/pets/profiles/%d" % (pet.id,))
 
 
 @csrf_exempt
@@ -175,7 +166,7 @@ def delete_my_pets(request):
 
     # We know that GETs can be caused by other sites, but POSTs should
     # be safe. So we check if request.method is POST.
-    if request.method != 'POST':
+    if request.method != "POST":
         return HttpResponse(status=403)
 
     # If the user is not logged in, reject the request.
@@ -183,9 +174,8 @@ def delete_my_pets(request):
         return HttpResponse(status=403)
 
     # OK. I guess they want to delete all their pets.
-    for pet in communication_app.models.Pet.objects.filter(
-            user=request.user):
+    for pet in communication_app.models.Pet.objects.filter(user=request.user):
         pet.delete()
 
     # Take them back to a lonely front page.
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect("/")

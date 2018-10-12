@@ -9,27 +9,56 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-    ]
+    dependencies = [migrations.swappable_dependency(settings.AUTH_USER_MODEL)]
 
     operations = [
         migrations.CreateModel(
-            name='Pet',
+            name="Pet",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.SlugField()),
-                ('description', models.CharField(blank=True, default='', max_length=1024)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.SlugField()),
+                (
+                    "description",
+                    models.CharField(blank=True, default="", max_length=1024),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Update',
+            name="Update",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('pub_date', models.DateTimeField(auto_now_add=True)),
-                ('text', models.CharField(max_length=140)),
-                ('pet', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='communication_app.Pet')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("pub_date", models.DateTimeField(auto_now_add=True)),
+                ("text", models.CharField(max_length=140)),
+                (
+                    "pet",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="communication_app.Pet",
+                    ),
+                ),
             ],
         ),
     ]
