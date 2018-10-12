@@ -7,12 +7,8 @@ from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 
 from .forms import PetForm, UpdateForm
-from .models import Pet, Update
+from .models import Pet
 from .shortcuts import get_my_pets
-
-
-def site_index(request):
-    return render(request, "site_index.html")
 
 
 def index(request):
