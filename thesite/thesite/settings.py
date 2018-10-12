@@ -45,14 +45,17 @@ INSTALLED_APPS = (
     "asheeshs_django_optimizer",
 )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = [
+    # TODO: Talk about SecurityMiddleware as part of lecture; also see if it needs to
+    # be disabled
+    "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-)
+]
 
 ROOT_URLCONF = "thesite.urls"
 
