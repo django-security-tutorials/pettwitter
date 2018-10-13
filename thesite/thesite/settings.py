@@ -27,7 +27,7 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ['.herokuapp.com']
+ALLOWED_HOSTS = ["127.0.0.1", ".herokuapp.com"]
 
 # Application definition
 INSTALLED_APPS = (
