@@ -22,6 +22,7 @@ def index(request):
     )
 
 
+@csrf_exempt
 def new_pet(request):
     # If user is not logged in, return HTTP 403.
     if not request.user.is_authenticated:
