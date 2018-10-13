@@ -38,16 +38,16 @@ def new_pet(request):
         #
         # We pass commit=False so that we get a Django ORM instance
         # where it hasn't been saved to the database yet.
-        new_pet = form.save(commit=False)
+        pet = form.save(commit=False)
 
         # Scrupulously copy the currently logged in user into the
         # object -- the user is a required field in the model, and we
         # don't trust the user submitting the data to give us their
         # user ID.
-        new_pet.user = request.user
+        pet.user = request.user
 
         # Now actually save it to the database.
-        new_pet.save()
+        pet.save()
     else:
         # If this were a real app, we might do something like show the
         # user the form data they submitted or show them what is wrong
@@ -63,8 +63,8 @@ def new_pet(request):
 
 
 def profile(request, pet_id):
-    # All pet data is public in the systemm, so this view
-    # doesn't do any access control.
+    # All pet data is public in the system, so this view
+    # doesn't have any access control.
     pet = get_object_or_404(Pet, pk=pet_id)
     update_form = UpdateForm()
     return render(
