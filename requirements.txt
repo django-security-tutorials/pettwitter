@@ -1,4 +1,4 @@
-Django==2.1.2
+Django==1.11.16
 dj-database-url==0.3.0 # TODO: update this too; curent version is 0.5
 asheeshs-django-optimizer
 -e .
