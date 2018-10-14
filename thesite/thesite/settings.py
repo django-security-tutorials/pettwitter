@@ -41,8 +41,6 @@ INSTALLED_APPS = (
     # Apps that are in this project
     "base_app",
     "communication_app",
-    # Cool third party module for making Django faster
-    "asheeshs_django_optimizer",
 )
 
 MIDDLEWARE = [
