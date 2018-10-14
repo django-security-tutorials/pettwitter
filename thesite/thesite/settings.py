@@ -27,7 +27,7 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", ".herokuapp.com"]
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 INSTALLED_APPS = (
@@ -61,7 +61,13 @@ ROOT_URLCONF = "thesite.urls"
 
 WSGI_APPLICATION = "thesite.wsgi.application"
 
+# https://docs.djangoproject.com/en/2.1/ref/settings/#session-cookie-httponly
 SESSION_COOKIE_HTTPONLY = False
+
+# When we upgraded to Django 2.1 and this setting was introduced, it broke some of our login mechanisms.  Let's just
+# disable it. It's new, so I'm sure we don't need it.
+# https://docs.djangoproject.com/en/2.1/ref/settings/#session-cookie-samesite
+SESSION_COOKIE_SAMESITE = None
 
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 
