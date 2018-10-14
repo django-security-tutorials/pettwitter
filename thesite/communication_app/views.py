@@ -143,14 +143,6 @@ def set_description(request, pet_id):
     # the database.
     user_provided_description = raw_user_provided_description[:1024]
 
-    # If the incoming description is not valid UTF-8, then reject the
-    # request.
-    # TODO: Don't think this matters in Python 3
-    # try:
-    #     user_provided_description = unicode(raw_user_provided_description)
-    # except UnicodeDecodeError:
-    #     raise PermissionDenied
-
     # Seems good. Let's store it.
     pet.description = user_provided_description
     pet.save()

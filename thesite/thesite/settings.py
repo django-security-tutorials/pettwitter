@@ -46,8 +46,6 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE = [
-    # TODO: Talk about SecurityMiddleware as part of lecture; also see if it needs to
-    # be disabled
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",

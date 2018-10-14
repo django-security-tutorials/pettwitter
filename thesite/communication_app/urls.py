@@ -5,7 +5,6 @@ from . import views
 app_name = "pets"
 urlpatterns = [
     path("", views.index, name="index"),
-    # TODO: Verify paths below this comment
     path("new_pet/", views.new_pet, name="new_pet"),
     path("profiles/<int:pet_id>/", views.profile, name="profile"),
     path("update/<pet_id>/", views.update, name="update"),
