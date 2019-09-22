@@ -2,10 +2,10 @@
 Django settings for thesite project.
 
 For more information on this file, see
-https://docs.djangoproject.com/en/2.1/topics/settings/
+https://docs.djangoproject.com/en/2.2/topics/settings/
 
 For the full list of settings and their values, see
-https://docs.djangoproject.com/en/2.1/ref/settings/
+https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -16,7 +16,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Quick-start development settings - unsuitable for production
 
-# See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/ for a list of
+# See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/ for a list of
 # best practices. Figure out which ones we're violating in this project!
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -57,12 +57,12 @@ ROOT_URLCONF = "thesite.urls"
 
 WSGI_APPLICATION = "thesite.wsgi.application"
 
-# https://docs.djangoproject.com/en/2.1/ref/settings/#session-cookie-httponly
+# https://docs.djangoproject.com/en/2.2/ref/settings/#session-cookie-httponly
 SESSION_COOKIE_HTTPONLY = False
 
 # When we upgraded to Django 2.1 and this setting was introduced, it broke some of our login mechanisms.  Let's just
 # disable it. It's new, so I'm sure we don't need it.
-# https://docs.djangoproject.com/en/2.1/ref/settings/#session-cookie-samesite
+# https://docs.djangoproject.com/en/2.2/ref/settings/#session-cookie-samesite
 SESSION_COOKIE_SAMESITE = None
 
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
@@ -70,7 +70,7 @@ SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 SESSION_SERIALIZER = "django.contrib.sessions.serializers.PickleSerializer"
 
 # Database
-# https://docs.djangoproject.com/en/2.1/ref/settings/#databases
+# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
     "default": {
@@ -83,7 +83,7 @@ if "DATABASE_URL" in os.environ:
     DATABASES["default"] = dj_database_url.config()
 
 # Internationalization
-# https://docs.djangoproject.com/en/2.1/topics/i18n/
+# https://docs.djangoproject.com/en/2.2/topics/i18n/
 
 LANGUAGE_CODE = "en-us"
 
@@ -96,12 +96,12 @@ USE_L10N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.1/howto/static-files/
+# https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, ".static-generated")
 
-# https://docs.djangoproject.com/en/2.1/topics/templates/
+# https://docs.djangoproject.com/en/2.2/topics/templates/
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
