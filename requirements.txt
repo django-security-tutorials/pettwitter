@@ -1,4 +1,4 @@
 black
 dj-database-url==0.3.0
-Django==2.2.5
+Django==2.2.24
 -e .
